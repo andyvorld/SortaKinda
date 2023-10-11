@@ -159,7 +159,7 @@ public unsafe class SortingRule : ISortingRule {
         SortOrderMode.Alphabetically => string.Equals(firstItem.Name.RawString, secondItem.Name.RawString, StringComparison.OrdinalIgnoreCase),
         SortOrderMode.SellPrice => firstItem.PriceLow == secondItem.PriceLow,
         SortOrderMode.Rarity => firstItem.Rarity == secondItem.Rarity,
-        SortOrderMode.ItemType => firstItem.ItemUICategory.Row == secondItem.ItemUICategory.Row,
+        SortOrderMode.ItemType => SortingRuleExt.ItemTypeSwap(firstItem, secondItem) == 0,
         _ => false
     };
 
@@ -169,7 +169,7 @@ public unsafe class SortingRule : ISortingRule {
         SortOrderMode.Alphabetically => string.Compare(firstItem.Name.RawString, secondItem.Name.RawString, StringComparison.OrdinalIgnoreCase) > 0,
         SortOrderMode.SellPrice => firstItem.PriceLow > secondItem.PriceLow,
         SortOrderMode.Rarity => firstItem.Rarity > secondItem.Rarity,
-        SortOrderMode.ItemType => ShouldSwapItemUiCategory(firstItem, secondItem),
+        SortOrderMode.ItemType => SortingRuleExt.ItemTypeSwap(firstItem, secondItem) > 0,
         _ => false
     };
 
