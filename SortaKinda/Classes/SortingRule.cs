@@ -162,9 +162,9 @@ public unsafe class SortingRule : IComparer<InventorySlot>{
         SortOrderMode.Alphabetically => string.Equals(firstItem.Name.ExtractText(), secondItem.Name.ExtractText(), StringComparison.OrdinalIgnoreCase),
         SortOrderMode.SellPrice => firstItem.PriceLow == secondItem.PriceLow,
         SortOrderMode.Rarity => firstItem.Rarity == secondItem.Rarity,
-        SortOrderMode.ItemType => firstItem.ItemUICategory.RowId == secondItem.ItemUICategory.RowId,
+        SortOrderMode.ItemType => SortingRuleExt.ItemTypeSwap(firstItem, secondItem) == 0,
         SortOrderMode.Level => firstItem.LevelEquip == secondItem.LevelEquip,
-        _ => false,
+        _ => false
     };
 
     private static bool ShouldSwap(Item firstItem, Item secondItem, SortOrderMode sortMode) => sortMode switch {
@@ -173,7 +173,7 @@ public unsafe class SortingRule : IComparer<InventorySlot>{
         SortOrderMode.Alphabetically => string.Compare(firstItem.Name.ExtractText(), secondItem.Name.ExtractText(), StringComparison.OrdinalIgnoreCase) > 0,
         SortOrderMode.SellPrice => firstItem.PriceLow > secondItem.PriceLow,
         SortOrderMode.Rarity => firstItem.Rarity > secondItem.Rarity,
-        SortOrderMode.ItemType => ShouldSwapItemUiCategory(firstItem, secondItem),
+        SortOrderMode.ItemType => SortingRuleExt.ItemTypeSwap(firstItem, secondItem) > 0,
         SortOrderMode.Level => firstItem.LevelEquip > secondItem.LevelEquip,
         _ => false,
     };
